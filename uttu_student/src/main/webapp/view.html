@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>view</title>
+<script>
+function func()
+{
+	var v=document.getElementById("rollno").value;
+	console.log(v);
+	//send this to rest
+	var url="webapi/student/"+v
+	if(window.XMLHttpRequest)
+	{
+		request=new XMLHttpRequest();
+	}
+	
+	try
+	{
+		request.onreadystatechange=getinfo;
+		request.open("GET",url,true);
+		request.send();
+	}
+	catch(e)
+	{
+		alert("unable to connect to server\n");
+	}
+}
+function getinfo()
+{
+	if(request.readyState==4)
+	{
+		var val=JSON.parse(request.responseText);
+		console.log(val);
+		document.getElementById('amit').innerHTML="";		
+		if(val['name']=='')
+		{
+			document.getElementById('amit').innerHTML="student rollno not found";									
+		}
+		else
+		{
+			for(i in val)	
+			{
+				document.getElementById('amit').innerHTML+=i+" : "+val[i]+"<br/>";
+			}	
+		}
+	}
+}
+</script>
+</head>
+<body>
+<h1>enter information</h1>
+roll no:<input id="rollno" type="text"/><br/>
+<button onclick="func()">submit</button><br/>
+<span id="amit"></span><br/>
+<a href="index.html">home</a>	<a href="index.html">back</a>
+</body>
+</html>

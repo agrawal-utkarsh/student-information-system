@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>update</title>
+<script>
+function func()
+{
+	var a=document.getElementById("rollno").value;
+	var b=document.getElementById("list").value;
+	var c=document.getElementById("val").value;
+	console.log(a+" "+b+" "+c);
+	var url="webapi/student/"+a+"/"+b+"/"+c;
+	if(window.XMLHttpRequest)
+	{
+		request=new XMLHttpRequest();
+	}
+	try
+	{
+		request.onreadystatechange=getinfo;
+		request.open("PUT",url,true);
+		request.send();
+	}
+	catch(e)
+	{
+		alert("unable to connect to server\n");
+	}
+}
+function getinfo()
+{
+	if(request.readyState==4)
+	{
+		var val=JSON.parse(request.responseText);
+		document.getElementById('amit').innerHTML="";		
+		if(val['name']=='')
+		{
+			document.getElementById('amit').innerHTML="student rollno not found";									
+		}
+		else
+		{
+			for(i in val)	
+			{
+				document.getElementById('amit').innerHTML+=i+" : "+val[i]+"<br/>";
+			}		
+		}
+	}
+}
+
+</script>
+</head>
+<body>
+<h1>enter information</h1>
+roll no:<input type="text" id="rollno"/><br/>
+update:<select id="list">
+		<option id="rollno">rollno</option>
+		<option id="name">name</option>
+		<option id="pm">physicsMarks</option>
+		<option id="cm">chemistryMarks</option>
+		<option id="mm">mathsMarks</option>
+		</select>
+<input type="text" id="val"/>
+		<br/>
+<button onclick="func()">submit</button>
+<span id="amit"></span><br/>
+<a href="index.html">home</a>	<a href="index.html">back</a></body>
+</html>

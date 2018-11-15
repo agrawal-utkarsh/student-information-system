@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>insert</title>
+<script>
+function func()
+{
+	var a=document.getElementById("name").value;
+	var b=document.getElementById("rollno").value;
+	var c=document.getElementById("pm").value;
+	var d=document.getElementById("cm").value;
+	var e=document.getElementById("mm").value;
+	console.log(a+" "+b+" "+c+" "+d+" "+e);
+	var url="webapi/student/"+a+"/"+b+"/"+c+"/"+d+"/"+e;
+	if(window.XMLHttpRequest)
+	{
+		request=new XMLHttpRequest();
+	}
+	try
+	{
+		request.onreadystatechange=getinfo;
+		request.open("POST",url,true);
+		request.send();
+	}
+	catch(e)
+	{
+		alert("unable to connect to server\n");
+	}
+}
+function getinfo()
+{
+	if(request.readyState==4)
+	{
+		var val=request.responseText;
+		if(val==0)
+		{
+			document.getElementById('bang').innerHTML="failure";			
+		}
+		else
+		{
+			document.getElementById('bang').innerHTML="thanks! data entered in db";			
+		}
+	}
+}
+</script>
+</head>
+<body>
+<div id="bang">
+<h1>enter information</h1>
+name:<input id="name" type="text"/><br/>
+roll no:<input id="rollno" type="text"/><br/>
+physics marks:<input id="pm" type="text"/><br/>
+chemistry marks:<input id="cm" type="text"/><br/>
+mathematics marks:<input id="mm" type="text"/><br/>
+<button onclick="func()">submit</button>
+<span id="amit"></span><br/></div>
+<a href="index.html">home</a>	<a href="index.html">back</a>
+</body>
+</html>

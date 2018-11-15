@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Multiple records query</title>
+<script>
+
+function func()
+{
+//	console.log("hello");
+	var a=document.getElementById("start").value;
+	var b=document.getElementById("end").value;
+	var c=document.getElementById("sort").value;
+	console.log(a+" "+b+" "+c);
+	var url="webapi/student/range/"+a+"/"+b+"/"+c;
+	console.log(url);
+	if(window.XMLHttpRequest)
+	{
+		request=new XMLHttpRequest();
+	}
+	try
+	{
+		request.onreadystatechange=getinfo;
+		request.open("GET",url,true);
+		request.send();
+	}
+	catch(e)
+	{
+		alert("unable to connect to server\n");
+	}
+}
+function getinfo()
+{
+	if(request.readyState==4)
+	{
+		var val=JSON.parse(request.responseText);
+		document.getElementById('amit').innerHTML="";		
+//		document.getElementById('amit').innerHTML=val;		
+		console.log(val);
+		for(i in val)	
+		{
+			for(j in val[i])
+			{
+				
+				document.getElementById('amit').innerHTML+=j+" : "+val[i][j]+"&nbsp&nbsp&nbsp&nbsp";				
+			}
+			document.getElementById('amit').innerHTML+="<br/>";
+		}		
+	}
+}
+
+</script>
+</head>
+<body>
+<h1>enter information</h1>
+start rollno:<input id="start" type="text"/><br/>
+end rollno:<input id="end" type="text"/><br/>
+sorted by:<select id="sort">
+			<option>rollno</option>
+			<option>grade</option>
+			<option>marks</option>
+			<option>name</option>
+		  </select><br/>
+<button onclick="func()">submit</button><br/>
+<span id="amit"></span><br/>
+<a href="index.html">home</a>	<a href="index.html">back</a></body>
+</html>
